@@ -48,43 +48,39 @@ Traditional Kalman filter-based SOC estimation methods face challenges in mainta
 ## System Architecture
 
 ```mermaid
-graph TD
-    subgraph BatteryPack ["LG INR18650HG2 Battery Pack"]
+flowchart TD
+
+    subgraph BatteryPack[LG INR18650HG2 Battery Pack]
         Cell1[Cell 1]
         Cell2[Cell 2]
         CellN[Cell N]
     end
 
-    subgraph HardwareLayer ["Embedded Hardware Layer (ESP32)"]
+    subgraph HardwareLayer[Embedded Hardware Layer &#40;ESP32&#41;]
         BQ[BQ76905 Battery Monitor IC]
         ESP32[ESP32 Microcontroller]
         SD[(SD Card Module)]
-        
-        BQ -- "I2C (50kHz)\nVoltage, Current, Temp" --> ESP32
-        ESP32 -- "SPI\nData Logging" --> SD
+
+        BQ -- "I2C @ 50kHz<br/>Voltage, Current, Temp" --> ESP32
+        ESP32 -- "SPI<br/>Data Logging" --> SD
     end
 
-    subgraph SoftwareLayer ["PC / Host Software Layer"]
+    subgraph SoftwareLayer[PC / Host Software Layer]
         Python[Python EKF Algorithm]
         GUI[Matplotlib Real-time Visualization]
         CSV[(ekf_output.csv)]
-        
-        ESP32 -- "UART (115200 bps)\nVoltage, Current" --> Python
+
+        ESP32 -- "UART @ 115200 bps<br/>Voltage, Current" --> Python
         Python -- "Stores Estimated SOC" --> CSV
         CSV --> GUI
     end
 
-    subgraph CloudFuture ["Future OTA Scope"]
+    subgraph CloudFuture[Future OTA Scope]
         Cloud[(Cloud Server / ML Model)]
-        Cloud -- "Recalibrated RC Parameters" -.-> ESP32
+        Cloud -.->|"Recalibrated RC Parameters"| ESP32
     end
 
     BatteryPack --> BQ
-    
-    style BatteryPack fill:#e1f5ff
-    style HardwareLayer fill:#fff4e1
-    style SoftwareLayer fill:#f0f0f0
-    style CloudFuture fill:#e8f5e9
 ```
 
 ---
@@ -108,6 +104,13 @@ graph TD
   - **SPI (SD Card):** MISO (19), MOSI (23), CLK (18), CS (5)
   - **UART (PC):** TX (17), RX (16)
   - **I2C (BQ76905):** SDA (21), SCL (22)
+
+### Hardware Schematic
+
+The physical circuit design was developed based on the BQ76905 datasheet recommendations, ensuring proper decoupling, pull-up resistors, and protection mechanisms.
+
+![Hardware Schematic](Schematic/Initial_draft.png)
+*(Figure: Complete hardware schematic showing BQ76905 interfacing with ESP32, SD card, and battery pack)*
 
 ### 2RC Equivalent Circuit Model
 
@@ -333,6 +336,12 @@ Successfully characterized LG INR18650HG2 battery at 25°C:
 | **R2** (Long-time RC) | 0.035821 | Ω |
 | **C2** | 15328.908 | F |
 | **Nominal Capacity** | 3.0 | Ah |
+
+**Model Fitting Validation:**
+The extracted parameters were validated against the actual HPPC discharge data to ensure the 2RC model accurately represents the battery's dynamic voltage response.
+
+![HPPC Model Fitting](Schematic/hppc_fitting_graph.png) 
+*(Figure: 2RC Model Voltage Fitting to HPPC Data, demonstrating the close match between the estimated model and actual battery response)*
 
 ### Model Validation & Adaptive Recalibration Impact
 
@@ -575,5 +584,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-```
 ```
