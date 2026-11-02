@@ -1,0 +1,40 @@
+# =========================
+# ESP-IDF build artifacts
+# =========================
+build/
+build_*_*/
+*.bin
+*.elf
+*.map
+*.hex
+*.uf2
+
+# Generated sdkconfig (keep sdkconfig.defaults instead)
+sdkconfig
+sdkconfig.old
+sdkconfig.local
+
+# ESP-IDF component manager (auto-downloaded)
+managed_components/
+dependencies.lock
+
+# idf-ci / pytest output
+build_summary_*.xml
+app_info_*.txt
+size_info_*.txt
+pytest_embedded_log/
+flasher_args.json
+flash_args*
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Debug / logs
+*.log
