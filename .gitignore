@@ -1,6 +1,7 @@
 # =========================
 # ESP-IDF build artifacts
 # =========================
+
 build/
 build_*_*/
 *.bin
