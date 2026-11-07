@@ -1,5 +1,7 @@
 # Advanced SOC Estimation for Lithium-Ion Batteries using Data-Driven Modeling with AEKF
 
+![Cover Image Board photo](/Schematic/Project.jpeg)
+
 [![Platform](https://img.shields.io/badge/Platform-ESP32-blue.svg)](https://www.espressif.com/en/products/modules/esp32)
 [![Framework](https://img.shields.io/badge/Framework-ESP--IDF-green.svg)](https://docs.espressif.com/projects/esp-idf/en/latest/)
 [![Language](https://img.shields.io/badge/Language-C%20%7C%20Python-orange.svg)]()
