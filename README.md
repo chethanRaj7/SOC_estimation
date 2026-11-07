@@ -52,13 +52,13 @@ Traditional Kalman filter-based SOC estimation methods face challenges in mainta
 ```mermaid
 flowchart TD
 
-    subgraph BatteryPack[LG INR18650HG2 Battery Pack]
+    subgraph BatteryPack["LG INR18650HG2 Battery Pack"]
         Cell1[Cell 1]
         Cell2[Cell 2]
         CellN[Cell N]
     end
 
-    subgraph HardwareLayer[Embedded Hardware Layer &#40;ESP32&#41;]
+    subgraph HardwareLayer["Embedded Hardware Layer (ESP32)"]
         BQ[BQ76905 Battery Monitor IC]
         ESP32[ESP32 Microcontroller]
         SD[(SD Card Module)]
@@ -67,7 +67,7 @@ flowchart TD
         ESP32 -- "SPI<br/>Data Logging" --> SD
     end
 
-    subgraph SoftwareLayer[PC / Host Software Layer]
+    subgraph SoftwareLayer["PC / Host Software Layer"]
         Python[Python EKF Algorithm]
         GUI[Matplotlib Real-time Visualization]
         CSV[(ekf_output.csv)]
@@ -77,7 +77,7 @@ flowchart TD
         CSV --> GUI
     end
 
-    subgraph CloudFuture[Future OTA Scope]
+    subgraph CloudFuture["Future OTA Scope"]
         Cloud[(Cloud Server / ML Model)]
         Cloud -.->|"Recalibrated RC Parameters"| ESP32
     end
